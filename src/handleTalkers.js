@@ -1,8 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
+const crypto = require('crypto');
 
 const talkersPath = path.resolve(__dirname, '..', 'src', 'talker.json');
 
+// Requisito 1 
 async function getAllTalkers() {
   try {
     const response = await fs.readFile(talkersPath, 'utf8');
@@ -14,7 +16,9 @@ async function getAllTalkers() {
     console.log(err.message);
   }
 }
+// getAllTalkers();
 
+// Requisito 2
 async function getId(id) {
   // console.log(typeof id);
     const response = await fs.readFile(talkersPath, 'utf8');
@@ -28,7 +32,22 @@ async function getId(id) {
    }
 }
 
+// getId(1);
+
+// Requisito 3 
+
+  function handleToken(email, password) {
+  if (email && password) {
+    const generateToken = crypto.randomBytes(8).toString('hex');
+    console.log(generateToken);
+    return generateToken;
+  } 
+}
+
+// handleToken();
+
 module.exports = {
   getAllTalkers,
   getId,
+  handleToken,
 };

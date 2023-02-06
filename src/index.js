@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllTalkers, getId } = require('./handleTalkers');
+const { getAllTalkers, getId, handleToken } = require('./handleTalkers');
 
 const app = express();
 app.use(express.json());
@@ -34,4 +34,16 @@ app.get('/talker/:id', async (req, res) => {
   } catch (err) {
     res.status(404).send({ message: err.message });
   }
+});
+
+// Requisito 3
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const token = handleToken(email, password);
+
+  if ([email, password].includes(undefined)) {
+    return res.status(400).json({ message: 'Erro de token' });
+  }
+    return res.status(200).json({ token });
 });
