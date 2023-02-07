@@ -39,15 +39,20 @@ async function getId(id) {
   function handleToken(email, password) {
   if (email && password) {
     const generateToken = crypto.randomBytes(8).toString('hex');
-    console.log(generateToken);
+    console.log(typeof generateToken);
     return generateToken;
   } 
 }
 
-// handleToken();
+ // handleToken('aime@gmail.com', '123456');
+
+ async function createTalker(name, age, watchedAt, rate) {
+
+ }
 
 module.exports = {
   getAllTalkers,
   getId,
   handleToken,
+  createTalker,
 };
