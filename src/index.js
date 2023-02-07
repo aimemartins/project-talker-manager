@@ -50,8 +50,8 @@ app.post('/login', validateEmail, validatePassword, async (req, res) => {
 // Requisito 5 
 
 app.post('/talker', auth, async (req, res) => {
-  const { name, age, talk: watchedAt, rate } = req.body;
-  const newTalker = createTalker(name, age, watchedAt, rate);
+  const { name, age, talk } = req.body;
+  const newTalker = createTalker(name, age, talk.watchedAt, talk.rate);
 
     return res.status(201).json(newTalker);
 });
