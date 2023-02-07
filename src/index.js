@@ -1,8 +1,9 @@
-const express = require('express');
+const express = require('express'); // framework pra ajudar a construir a aplicação
 const { getAllTalkers, getId, handleToken } = require('./handleTalkers');
+const { validateToken } = require('./middlewares/validateToken');
 
-const app = express();
-app.use(express.json());
+const app = express(); // o express por padrão não consegue ler JSON
+app.use(express.json()); // possibilidade de conseguir ler JSON
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
@@ -38,12 +39,9 @@ app.get('/talker/:id', async (req, res) => {
 
 // Requisito 3
 
-app.post('/login', async (req, res) => {
+app.post('/login', validateToken, async (req, res) => {
   const { email, password } = req.body;
   const token = handleToken(email, password);
-
-  if ([email, password].includes(undefined)) {
-    return res.status(400).json({ message: 'Erro de token' });
-  }
+  
     return res.status(200).json({ token });
 });
