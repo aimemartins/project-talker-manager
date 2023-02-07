@@ -1,4 +1,5 @@
-function validateEmail(email, res) {
+function validateEmail(req, res, next) {
+  const { email } = req.body;
     if (email === undefined) {
       return res
       .status(400)
@@ -11,10 +12,11 @@ function validateEmail(email, res) {
       .status(400)
       .json({ message: 'O "email" deve ter o formato "email@email.com"' });
     }
-    return null;
+   next();
 }
 
-function validatePassword(password, res) {
+function validatePassword(req, res, next) {
+  const { password } = req.body;
   if (password === undefined) {
     return res
     .status(400)
@@ -25,19 +27,7 @@ function validatePassword(password, res) {
     .status(400)
     .json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
   }
-  return null;
+ next();
 }
 
-async function validateToken(req, res, next) {
-  const { email, password } = req.body;
-
-  const ve = validateEmail(email, res);
-  if (ve !== null) return ve;
-
-  const vp = validatePassword(password, res);
-  if (vp !== null) return vp;
-
-  next();
-}
-
-module.exports = { validateToken };
+module.exports = { validateEmail, validatePassword };
