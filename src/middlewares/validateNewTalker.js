@@ -56,8 +56,37 @@ async function validateAge(req, res, next) {
   next();
 }
 
+async function validateObjWatchedAt(req, res, next) {
+  const { talk } = req.body;
+
+  if (!talk) {
+    return res.status(400).json({ message: 'O campo "talk" é obrigatório' });
+  }
+  if (!talk.watchedAt) { 
+    return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' }); 
+  }
+
+  const REGEX_DATE = /^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/;
+
+  if (!REGEX_DATE.test(talk.watchedAt)) {
+    return res.status(400)
+    .json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' }); 
+  }
+  if (!talk.rate) {
+    return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
+  }
+  const REGEX_NUMBER_INTERVAL = /^[1-5]$/;
+  
+  if (!REGEX_NUMBER_INTERVAL.test(talk.rate)) {
+    return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' }); 
+  } 
+ // typeof talk.rate !== 'number' && !Number.isInteger(talk.rate) && 
+  next();
+}
+
 module.exports = { 
   auth, 
   validateName, 
   validateAge,
+  validateObjWatchedAt,
 };
