@@ -39,12 +39,14 @@ async function getId(id) {
   function handleToken(email, password) {
   if (email && password) {
     const generateToken = crypto.randomBytes(8).toString('hex');
-    console.log(typeof generateToken);
+    // console.log(typeof generateToken);
     return generateToken;
   } 
 }
 
  // handleToken('aime@gmail.com', '123456');
+
+ // Requisito 5
 
  async function createTalker(name, age, watchedAt, rate) {
   const read = await getAllTalkers();
@@ -58,16 +60,16 @@ async function getId(id) {
       rate,
     },
   };
-
+  // console.log('string', newTalker);
+  // const jsonNewTalker = JSON.stringify(newTalker);
+  // console.log('json', jsonNewTalker);
   const addTalker = JSON.stringify([...read, newTalker], null, 2);
-   console.log(addTalker);
 
-  const writeNewTalker = await fs.writeFile(talkersPath, addTalker);
-  // console.log(writeNewTalker); DÚVIDA? eu consigo fazer um console em um  arquivo fs?
-  return writeNewTalker;
+   await fs.writeFile(talkersPath, addTalker);
+  return newTalker;
  }
 
-// createTalker('joao', 30, 'hdd', 'jhdjf');
+// createTalker('aime', 30, 'hdd', 'jhdjf');
 
 module.exports = {
   getAllTalkers,

@@ -1,14 +1,11 @@
 const express = require('express'); // framework pra ajudar a construir a aplicação
 const { getAllTalkers, getId, handleToken, createTalker } = require('./handleTalkers');
-const 
-  { 
-    auth, 
-    validateName, 
-    validateAge, 
-    validateObjWatchedAt,
-  } = require('./middlewares/validateNewTalker');
-
 const { validateEmail, validatePassword } = require('./middlewares/validateToken');
+const validateAuth = require('./middlewares/validateAuth');
+const validateName = require('./middlewares/validateName');
+const validateAge = require('./middlewares/validateAge');
+const validateTalk = require('./middlewares/validateTalk');
+const validateRate = require('./middlewares/validateRate');
 
 const app = express(); // o express por padrão não consegue ler JSON
 app.use(express.json()); // possibilidade de conseguir ler JSON
@@ -56,10 +53,11 @@ app.post('/login', validateEmail, validatePassword, async (req, res) => {
 
 // Requisito 5 
 
-app.post('/talker', auth, validateName, validateAge, validateObjWatchedAt, 
+app.post('/talker', validateAuth, validateName, validateAge, validateTalk, validateRate,
   async (req, res) => {
   const { name, age, talk } = req.body;
-  const newTalker = createTalker(name, age, talk.watchedAt, talk.rate);
+  const { watchedAt, rate } = talk;
+  const response = await createTalker(name, age, watchedAt, rate);
 
-    return res.status(201).json(newTalker);
+    return res.status(201).json(response);
 });
