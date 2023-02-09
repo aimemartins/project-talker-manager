@@ -1,5 +1,5 @@
 const express = require('express'); // framework pra ajudar a construir a aplicação
-const { getAllTalkers, getId, handleToken, createTalker } = require('./handleTalkers');
+const { getAllTalkers, getId, handleToken, createTalker, editTalker } = require('./handleTalkers');
 const { validateEmail, validatePassword } = require('./middlewares/validateToken');
 const validateAuth = require('./middlewares/validateAuth');
 const validateName = require('./middlewares/validateName');
@@ -35,7 +35,7 @@ app.get('/talker/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const talkers = await getId(Number(id));
-    console.log(talkers);
+    // console.log(talkers);
     res.status(200).json(talkers);
   } catch (err) {
     res.status(404).send({ message: err.message });
@@ -60,4 +60,15 @@ app.post('/talker', validateAuth, validateName, validateAge, validateTalk, valid
   const response = await createTalker(name, age, watchedAt, rate);
 
     return res.status(201).json(response);
+});
+
+// Requisito 6
+
+app.put('/talker/:id', validateAuth, validateName, validateAge, validateTalk, validateRate,
+  async (req, res) => {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+  const response = await editTalker(id, name, age, talk);
+  
+    return res.status(200).json(response);
 });

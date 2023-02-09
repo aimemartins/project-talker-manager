@@ -71,9 +71,26 @@ async function getId(id) {
 
 // createTalker('aime', 30, 'hdd', 'jhdjf');
 
+async function editTalker(id, name, age, talk) {
+  const readTalkers = await getAllTalkers();
+  // console.log(readTalkers); // retorna toda a lista de talkers
+  const update = readTalkers.find((talker) => talker.id === Number(id));
+  const index = readTalkers.indexOf(update);
+ 
+  const newTalker = { name, age, id: Number(id), talk };
+  readTalkers.splice(index, 1, newTalker);
+ const re = JSON.stringify(readTalkers, null, 2);
+  await fs.writeFile(talkersPath, re);
+  // console.log(update); // retorna o objeto que tem o id igual ao que vem da requisição
+
+  return newTalker; 
+}
+// editTalker(1, 'aime', 32, 'dfdjf', 'dff');
+
 module.exports = {
   getAllTalkers,
   getId,
   handleToken,
   createTalker,
+  editTalker,
 };
