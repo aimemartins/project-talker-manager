@@ -25,19 +25,20 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+// Requisito 8
+app.get('/talker/search', validateAuth, 
+async (req, res) => {
+  const { q } = req.query;
+    const response = await searchTalker(q);
+   
+    return res.status(200).json(response);
+});
+
 // Requisito 01
 
 app.get('/talker', async (_req, res) => {
   const talkers = await getAllTalkers();
     res.status(200).json(talkers);
-});
-
-// Requisito 8
-app.get('/talker/search?q=searchTerm', validateAuth, 
-async (req, res) => {
-  const { q } = req.query;
-    const response = await searchTalker(q);
-    return res.status(200).json(response);
 });
 
 // Requisito 02

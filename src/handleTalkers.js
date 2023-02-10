@@ -97,14 +97,17 @@ async function deleteTalker(id) {
 async function searchTalker(q) {
   const list = await getAllTalkers();
   const filter = list.filter((elem) => elem.name.includes(q));
-
+  // console.log(filter);
   if (filter === undefined) {
-   return list;
-   } if (!filter) {
-    return {};
-   } 
+    return list;
+    } if (!filter) {
+     return [];
+    } 
     return filter;
 }
+
+searchTalker('Ric');
+
 module.exports = {
   getAllTalkers,
   getId,
