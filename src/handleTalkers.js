@@ -93,6 +93,18 @@ async function deleteTalker(id) {
   await fs.writeFile(talkersPath, whatLeft);
   return whatLeft;
 }
+
+async function searchTalker(q) {
+  const list = await getAllTalkers();
+  const filter = list.filter((elem) => elem.name.includes(q));
+
+  if (filter === undefined) {
+   return list;
+   } if (!filter) {
+    return {};
+   } 
+    return filter;
+}
 module.exports = {
   getAllTalkers,
   getId,
@@ -100,4 +112,5 @@ module.exports = {
   createTalker,
   editTalker,
   deleteTalker,
+  searchTalker,
 };

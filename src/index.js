@@ -2,7 +2,7 @@ const express = require('express'); // framework pra ajudar a construir a aplica
 const 
 { getAllTalkers, 
   getId, handleToken, 
-  createTalker, editTalker, deleteTalker } = require('./handleTalkers');
+  createTalker, editTalker, deleteTalker, searchTalker } = require('./handleTalkers');
 const { validateEmail, validatePassword } = require('./middlewares/validateToken');
 const validateAuth = require('./middlewares/validateAuth');
 const validateName = require('./middlewares/validateName');
@@ -30,6 +30,14 @@ app.get('/', (_request, response) => {
 app.get('/talker', async (_req, res) => {
   const talkers = await getAllTalkers();
     res.status(200).json(talkers);
+});
+
+// Requisito 8
+app.get('/talker/search?q=searchTerm', validateAuth, 
+async (req, res) => {
+  const { q } = req.query;
+    const response = await searchTalker(q);
+    return res.status(200).json(response);
 });
 
 // Requisito 02
