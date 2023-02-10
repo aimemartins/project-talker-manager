@@ -1,5 +1,8 @@
 const express = require('express'); // framework pra ajudar a construir a aplicação
-const { getAllTalkers, getId, handleToken, createTalker, editTalker } = require('./handleTalkers');
+const 
+{ getAllTalkers, 
+  getId, handleToken, 
+  createTalker, editTalker, deleteTalker } = require('./handleTalkers');
 const { validateEmail, validatePassword } = require('./middlewares/validateToken');
 const validateAuth = require('./middlewares/validateAuth');
 const validateName = require('./middlewares/validateName');
@@ -71,4 +74,11 @@ app.put('/talker/:id', validateAuth, validateName, validateAge, validateTalk, va
   const response = await editTalker(id, name, age, talk);
   
     return res.status(200).json(response);
+});
+
+app.delete('/talker/:id', validateAuth, 
+  async (req, res) => {
+    const { id } = req.params;
+    const response = await deleteTalker(id);
+    return res.status(204).json(response);
 });

@@ -86,11 +86,18 @@ async function editTalker(id, name, age, talk) {
   return newTalker; 
 }
 // editTalker(1, 'aime', 32, 'dfdjf', 'dff');
-
+async function deleteTalker(id) {
+  const list = await getAllTalkers();
+  const find = list.filter((talker) => talker.id !== Number(id)); // filtre tudo que não for o id passado;
+  const whatLeft = JSON.stringify(find, null, 2);
+  await fs.writeFile(talkersPath, whatLeft);
+  return whatLeft;
+}
 module.exports = {
   getAllTalkers,
   getId,
   handleToken,
   createTalker,
   editTalker,
+  deleteTalker,
 };
